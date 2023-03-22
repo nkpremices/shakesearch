@@ -1,27 +1,30 @@
 <!doctype html>
-<html class="no-js" lang="">
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>ShakeSearch</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="theme-color" content="#fafafa">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <p>
+    <p class="form-container">
         <form id="form">
-            <label for="query">Query</label>
-            <input type="text" id="query" name="query">
-            <button type="submit">Search</button>
+            <input type="text" id="query" name="query" placeholder="query" size="30" required>
+            <input id="search-btn" value="Search" type="submit"/>
         </form>
     </p>
-    <p>
-        <table id="table">
-          <tbody id="table-body"></tbody>
-        </table>
-    </p>
-  <script src="app.js"></script>
-</body>
 
+    <hr id="divider">
+    <div id="results-summary"></div>
+
+    <p>
+        <div id="table">
+           <div id="results-empty-state"> No results to show for the moment...</div>
+        </div>
+    </p>
+
+    <script src="app.js"></script>
+</body>
 </html>

@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 )
 
 func main() {
@@ -73,10 +74,18 @@ func (s *Searcher) Load(filename string) error {
 }
 
 func (s *Searcher) Search(query string) []string {
-	idxs := s.SuffixArray.Lookup([]byte(query), -1)
+	query = "(?i)" + query // add case-insensitive flag to regex
+	re := regexp.MustCompile(query)
+	idxs := s.SuffixArray.FindAllIndex(re, -1)
 	results := []string{}
+	lastIdx := -1 // initialize lastIdx to an invalid value
 	for _, idx := range idxs {
-		results = append(results, s.CompleteWorks[idx-250:idx+250])
+		if lastIdx == -1 || idx[0]-lastIdx > 250 {
+			result := s.CompleteWorks[idx[0]-250 : idx[1]+250]
+			result = re.ReplaceAllString(result, "<mark>$0</mark>")
+			results = append(results, result)
+			lastIdx = idx[1] // update lastIdx to the end of the current match
+		}
 	}
 	return results
 }

@@ -1,5 +1,5 @@
 const Controller = {
-  search: (ev) => {
+  search(ev) {
     ev.preventDefault();
     const form = document.getElementById("form");
     const data = Object.fromEntries(new FormData(form));
@@ -10,13 +10,24 @@ const Controller = {
     });
   },
 
-  updateTable: (results) => {
-    const table = document.getElementById("table-body");
+  updateTable(results) {
+    const table = document.getElementById("table");
+    const resultsSummary = document.getElementById("results-summary");
+
     const rows = [];
+
     for (let result of results) {
-      rows.push(`<tr>${result}<tr/>`);
+      rows.push(`<div id="row">${result}...</div>`);
     }
-    table.innerHTML = rows;
+
+    if (rows.length !== 0) {
+      resultsSummary.style.display = 'block';
+      resultsSummary.innerHTML = `<b>Showing ${rows.length} results</b> <br/>`;
+      table.innerHTML = rows.join("<br/>");
+    } else {
+        resultsSummary.style.display = 'none';
+        table.innerHTML = `<div id="results-empty-state"> No results to show for the moment...</div>`;
+    }
   },
 };
 
